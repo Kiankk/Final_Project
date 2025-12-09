@@ -68,4 +68,12 @@ public class Assignment {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Assignment{" +
+                "assignmentId='" + assignmentId + '\'' +
+                ", assignmentName='" + assignmentName + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
 }
