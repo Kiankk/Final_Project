@@ -21,4 +21,45 @@ public class Course {
         String deptId = (department != null) ? department.getDepartmentId() : "D00";
         this.courseId = String.format("C-%s-%02d", deptId, nextId++);
     }
+
+    public boolean isAssignmentWeightValid() {
+        double sum = 0;
+        for (Assignment a : assignments) {
+            sum += a.getWeight();
+        }
+        return sum == 100.0;
+    }
+
+    public boolean registerStudent(Student student) {
+        if (registeredStudents.contains(student)) {
+            return false;
+        }
+
+        registeredStudents.add(student);
+        finalScores.add(null);
+
+        for (Assignment a : assignments) {
+            a.getScores().add(null);
+        }
+        return true;
+    }
+
+    public int[] calcStudentsAverage() {
+        int[] averages = new int[registeredStudents.size()];
+
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            double weightedSum = 0;
+
+            for (Assignment a : assignments) {
+                Integer score = a.getScores().get(i);
+                if (score != null) {
+                    weightedSum += score * (a.getWeight() / 100.0);
+                }
+            }
+
+            finalScores.set(i, weightedSum);
+            averages[i] = (int) Math.round(weightedSum);
+        }
+        return averages;
+    }
 }
