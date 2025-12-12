@@ -62,4 +62,71 @@ public class Course {
         }
         return averages;
     }
+
+    public boolean addAssignment(String assignmentName, double weight, int maxScore) {
+        Assignment newAssignment = new Assignment(assignmentName, weight);
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            newAssignment.getScores().add(null);
+        }
+
+        assignments.add(newAssignment);
+        return true;
+    }
+
+    public void generateScores() {
+        for (Assignment a : assignments) {
+            a.generateRandomScore();
+        }
+        calcStudentsAverage();
+    }
+
+    /**
+     * displays the scores of the assignment
+     */
+    public void displayScores() {
+        System.out.printf("Course: %s (%s)%n", courseName, courseId);
+        System.out.printf("%-20s", "");
+        for (Assignment a : assignments) {
+            System.out.printf("%-15s", a.getAssignmentName());
+        }
+        System.out.printf("%-15s%n", "Final Score");
+
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            Student s = registeredStudents.get(i);
+            System.out.printf("%-20s", s.getStudentName());
+
+            for (Assignment a : assignments) {
+                Integer score = a.getScores().get(i);
+                System.out.printf("%-15s", (score != null ? score : "N/A"));
+            }
+
+            Double finalScore = finalScores.get(i);
+            System.out.printf("%-15s%n", (finalScore != null ? Math.round(finalScore) : "N/A"));
+        }
+
+        System.out.printf("%-20s", "Average");
+        for (Assignment a : assignments) {
+            double sum = 0;
+            int count = 0;
+            for (Integer score : a.getScores()) {
+                if (score != null) {
+                    sum += score;
+                    count++;
+                }
+            }
+            int avg = (count > 0) ? (int)(sum / count) : 0;
+            System.out.printf("%-15d", avg);
+        }
+
+        double finalSum = 0;
+        int finalCount = 0;
+        for (Double f : finalScores) {
+            if (f != null) {
+                finalSum += f;
+                finalCount++;
+            }
+        }
+        int totalAvg = (finalCount > 0) ? (int)(finalSum / finalCount) : 0;
+        System.out.printf("%-15d%n", totalAvg);
+    }
 }
