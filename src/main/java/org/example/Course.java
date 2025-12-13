@@ -1,6 +1,13 @@
 package org.example;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Course {
     private String courseId;
     private String courseName;
