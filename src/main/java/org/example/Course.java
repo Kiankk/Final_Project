@@ -129,4 +129,37 @@ public class Course {
         int totalAvg = (finalCount > 0) ? (int)(finalSum / finalCount) : 0;
         System.out.printf("%-15d%n", totalAvg);
     }
+
+    public String toSimplifiedString() {
+        String deptName = (department != null) ? department.getDepartmentName() : "Unknown";
+        return String.format("CourseId: %s, Name: %s, Credits: %.1f, Dept: %s",
+                courseId, courseName, credits, deptName);
+    }
+
+    @Override
+    public String toString() {
+        String deptName = (department != null) ? department.getDepartmentName() : "Unknown";
+
+        StringBuilder studentsStr = new StringBuilder("[");
+        for (int i = 0; i < registeredStudents.size(); i++) {
+            Student s = registeredStudents.get(i);
+            studentsStr.append(s.getStudentId())
+                    .append("-")
+                    .append(s.getStudentName())
+                    .append("-")
+                    .append(deptName);
+            if (i < registeredStudents.size() - 1) studentsStr.append(", ");
+        }
+        studentsStr.append("]");
+
+        return "Course{" +
+                "courseId='" + courseId + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", credits=" + credits +
+                ", department=" + deptName +
+                ", assignments=" + assignments +
+                ", registeredStudents=" + studentsStr +
+                ", isAssignmentWeightValid=" + isAssignmentWeightValid() +
+                '}';
+    }
 }
